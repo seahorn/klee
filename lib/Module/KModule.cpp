@@ -510,7 +510,7 @@ static int getOperandNum(Value *v,
   } else if (Argument *a = dyn_cast<Argument>(v)) {
     return a->getArgNo();
   } else if (isa<BasicBlock>(v) || isa<InlineAsm>(v) ||
-             isa<MDNode>(v)) {
+             v->isUsedByMetadata() ) { //isa<MDNode>(v)) //Doubt this is right
     return -1;
   } else {
     assert(isa<Constant>(v));
