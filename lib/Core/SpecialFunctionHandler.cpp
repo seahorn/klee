@@ -22,6 +22,7 @@
 #include "MemoryManager.h"
 
 #include "klee/CommandLine.h"
+#include "klee/klee.h"
 
 #if LLVM_VERSION_CODE >= LLVM_VERSION(3, 3)
 #include "llvm/IR/Module.h"
@@ -48,6 +49,9 @@ namespace {
                    cl::desc("Silently terminate paths with an infeasible "
                             "condition given to klee_assume() rather than "
                             "emitting an error (default=false)"));
+  cl::opt<bool>
+  HaltAfterAssert("halt-after-assert",
+              cl::desc("Halt execution after reaching assert"));
 }
 
 
@@ -311,6 +315,8 @@ void SpecialFunctionHandler::handleAssert(ExecutionState &state,
   executor.terminateStateOnError(state,
 				 "ASSERTION FAIL: " + readStringAtAddress(state, arguments[0]),
 				 "assert.err");
+  if (HaltAfterAssert)
+    halt_execution();
 }
 
 void SpecialFunctionHandler::handleAssertFail(ExecutionState &state,
@@ -320,6 +326,8 @@ void SpecialFunctionHandler::handleAssertFail(ExecutionState &state,
   executor.terminateStateOnError(state,
 				 "ASSERTION FAIL: " + readStringAtAddress(state, arguments[0]),
 				 "assert.err");
+  if (HaltAfterAssert)
+    halt_execution();
 }
 
 void SpecialFunctionHandler::handleReportError(ExecutionState &state,
