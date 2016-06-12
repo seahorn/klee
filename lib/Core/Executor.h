@@ -399,7 +399,10 @@ private:
   void initTimers();
   void processTimers(ExecutionState *current,
                      double maxInstTime);
+
   void checkMemoryUsage();
+
+  std::string getLineInfo(const ExecutionState &state, bool trueBranch);
 
 public:
   Executor(const InterpreterOptions &opts, InterpreterHandler *ie);
