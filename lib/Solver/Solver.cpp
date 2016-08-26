@@ -11,6 +11,8 @@
 #include "klee/SolverImpl.h"
 #include "klee/Constraints.h"
 
+
+
 using namespace klee;
 
 const char *Solver::validity_to_str(Validity v) {
@@ -78,12 +80,12 @@ bool Solver::mayBeFalse(const Query& query, bool &result) {
 }
 
 bool Solver::getValue(const Query& query, ref<ConstantExpr> &result) {
+ 
   // Maintain invariants implementation expect.
   if (ConstantExpr *CE = dyn_cast<ConstantExpr>(query.expr)) {
     result = CE;
     return true;
   }
-
   // FIXME: Push ConstantExpr requirement down.
   ref<Expr> tmp;
   if (!impl->computeValue(query, tmp))

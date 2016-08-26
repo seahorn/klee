@@ -13,7 +13,7 @@
 #include "klee/Common.h"
 #include "klee/CommandLine.h"
 #include "llvm/Support/raw_ostream.h"
-
+#include "klee/Internal/Support/ErrorHandling.h"
 namespace klee
 {
         Solver *constructSolverChain(Solver *coreSolver,

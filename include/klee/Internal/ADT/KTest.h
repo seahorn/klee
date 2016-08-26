@@ -55,6 +55,7 @@ extern "C" {
 
   void  kTest_free(KTest *);
 
+  KTestObject * getKTestObj(const KTest *, const char*, int);
 #ifdef __cplusplus
 }
 #endif

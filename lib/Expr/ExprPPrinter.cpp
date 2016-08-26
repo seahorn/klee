@@ -559,4 +559,5 @@ void ExprPPrinter::printQuery(llvm::raw_ostream &os,
 
   PC << ')';
   PC.breakLine();
+
 }

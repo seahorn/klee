@@ -153,6 +153,7 @@ public:
 
   virtual void getCoveredLines(const ExecutionState &state,
                                std::map<const std::string*, std::set<unsigned> > &res) = 0;
+  virtual void setReplayKeepSymbolic(bool b) = 0;
 };
 
 } // End klee namespace

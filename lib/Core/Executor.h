@@ -23,6 +23,7 @@
 #include "klee/util/ArrayCache.h"
 
 #include "llvm/ADT/Twine.h"
+#include "llvm/ADT/StringMap.h"
 
 #include <vector>
 #include <string>
@@ -155,7 +156,9 @@ private:
   const std::vector<bool> *replayPath;
   /// The index into the current \ref replayKTest or \ref replayPath
   /// object.
-  unsigned replayPosition;
+  unsigned int replayPosition;
+  llvm::StringMap<int> replayIndex;
+
 
   /// When non-null a list of "seed" inputs which will be used to
   /// drive execution.
@@ -175,6 +178,8 @@ private:
   /// Whether implied-value concretization is enabled. Currently
   /// false, it is buggy (it needs to validate its writes).
   bool ivcEnabled;
+
+  bool replayKeepSymbolic;
 
   /// The maximum time to allow for a single core solver query.
   /// (e.g. for a single STP query)
@@ -276,7 +281,7 @@ private:
                               KInstruction *target /* undef if write */);
 
   void executeMakeSymbolic(ExecutionState &state, const MemoryObject *mo,
-                           const std::string &name);
+                           const std::string &name, bool replay = false);
 
   /// Create a new state where each input condition has been added as
   /// a constraint and return the results. The input state is included
@@ -432,6 +437,11 @@ public:
     assert(!replayKTest && "cannot replay both buffer and path");
     replayPath = path;
     replayPosition = 0;
+  }
+
+  virtual void setReplayKeepSymbolic(bool b)
+  {
+    replayKeepSymbolic = b;
   }
 
   virtual const llvm::Module *

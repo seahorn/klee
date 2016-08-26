@@ -15,6 +15,8 @@
 #include "klee/Expr.h"
 #include "klee/Internal/ADT/ImmutableMap.h"
 
+#include <string>
+
 namespace klee {
   class ExecutionState;
   class MemoryObject;
@@ -111,6 +113,8 @@ namespace klee {
     /// \param os The current binding of the MemoryObject.
     /// \return A writeable ObjectState (\a os or a copy).
     ObjectState *getWriteable(const MemoryObject *mo, const ObjectState *os);
+
+    std::string dumpAllObjects() const;
 
     /// Copy the concrete values of all managed ObjectStates into the
     /// actual system memory location they were allocated at.

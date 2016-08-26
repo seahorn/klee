@@ -18,6 +18,7 @@
 #include "CoreStats.h"
 
 #include "llvm/Support/TimeValue.h"
+#include "klee/Internal/Support/ErrorHandling.h"
 
 using namespace klee;
 using namespace llvm;

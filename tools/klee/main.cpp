@@ -220,6 +220,10 @@ namespace {
   Watchdog("watchdog",
            cl::desc("Use a watchdog process to enforce --max-time."),
            cl::init(0));
+
+  cl::opt<bool> dumpMemoryObjects("dump-mem-obj",
+    cl::desc("Dump memory snapshot after execution"),
+    cl::init(true));
 }
 
 extern cl::opt<double> MaxTime;
@@ -471,6 +475,13 @@ void KleeHandler::processTestCase(const ExecutionState &state,
     if (errorMessage) {
       llvm::raw_ostream *f = openTestFile(errorSuffix, id);
       *f << errorMessage;
+      delete f;
+    }
+
+    if (dumpMemoryObjects)
+    {
+      llvm::raw_ostream *f = openTestFile("mem", id);
+      *f<<state.addressSpace.dumpAllObjects();
       delete f;
     }
 
@@ -1408,6 +1419,7 @@ int main(int argc, char **argv, char **envp) {
     interpreter->setModule(mainModule, Opts);
   externalsAndGlobalsCheck(finalModule);
 
+  interpreter->setReplayKeepSymbolic(ReplayKeepSymbolic);
   if (ReplayPathFile != "") {
     interpreter->setReplayPath(&replayPath);
   }

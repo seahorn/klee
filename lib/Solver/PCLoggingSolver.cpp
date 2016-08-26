@@ -13,6 +13,8 @@
 #include "klee/util/ExprPPrinter.h"
 #include "klee/Internal/Support/QueryLog.h"
 
+#include <iostream>
+
 using namespace klee;
 
 ///

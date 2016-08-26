@@ -238,3 +238,16 @@ void kTest_free(KTest *bo) {
   free(bo->objects);
   free(bo);
 }
+KTestObject * getKTestObj(const KTest * kTest, const char* name, int index)
+{
+  int cursor = 0;
+  for (unsigned int i=0;i<kTest->numObjects;i++)
+    if (strcmp(name,kTest->objects[i].name)==0)
+    {
+      if (cursor == index)
+        return &kTest->objects[i];
+      else
+        cursor++;
+    }
+  return NULL;
+}
